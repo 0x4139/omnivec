@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -24,14 +26,17 @@ def custom_ndarray_encoder(obj):
     return obj
 
 
+class SparseVector(BaseModel):
+    indices: list[int]  # Sparse vector indices
+    values: list[float]  # Sparse vector values
+
 class EmbeddingResponse(BaseModel):
     """
     Response model for embeddings.
     """
-    dense: list[list[float]] | None  # Dense vector representation
-    sparse: list[dict[str, float]] | None  # Sparse vector representation
-    late: list[list[list[float]]] | None  # Late interaction representation
-
+    dense: Optional[list[list[float]]] = None  # Dense vector representation
+    sparse: Optional[list[SparseVector]] = None  # Sparse vector representation
+    late: Optional[list[list[list[float]]]] = None  # Late interaction representation
 
 class EmbeddingRequest(BaseModel):
     """

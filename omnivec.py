@@ -31,7 +31,7 @@ class Omnivec:
             passage_instruction_for_rerank=os.getenv("RERANKER_PASSAGE_INSTRUCTION_FOR_RERANK", None),
             passage_instruction_format=os.getenv("RERANKER_PASSAGE_INSTRUCTION_FORMAT", "{}{}"),
             trust_remote_code=os.getenv("RERANKER_TRUST_REMOTE_CODE", False) in ('true', '1', 't'),
-            cache_dir=os.getenv("RERANKER_CACHE_DIR", None),
+            cache_dir=os.getenv("RERANKER_CACHE_DIR", "./cache"),
             devices=os.getenv("RERANKER_DEVICES", None),
             batch_size=int(os.getenv("RERANKER_BATCH_SIZE", 128)),
             query_max_length=int(os.getenv("RERANKER_QUERY_MAX_LENGTH", 1024)) if os.getenv(
@@ -50,9 +50,22 @@ class Omnivec:
             return_sparse=sparse,
             return_colbert_vecs=late_interaction
         )
+        sparse=[]
+
+        for item in data['lexical_weights']:
+            item_indices = []
+            item_values = []
+            for key, value in item.items():
+                item_indices.append(int(key))
+                item_values.append(value)
+            sparse.append({
+                "indices": item_indices,
+                "values": item_values
+            })
+
         return {
             "dense": data['dense_vecs'],
-            "sparse": data['lexical_weights'],
+            "sparse": sparse,
             "late": data['colbert_vecs']
         }
 
@@ -66,9 +79,23 @@ class Omnivec:
             return_sparse=sparse,
             return_colbert_vecs=late_interaction
         )
+        sparse = []
+
+        for item in data['lexical_weights']:
+            item_indices = []
+            item_values = []
+            print(item)
+            for key, value in item.items():
+                item_indices.append(int(key))
+                item_values.append(value)
+            sparse.append({
+                "indices": item_indices,
+                "values": item_values
+            })
+
         return {
             "dense": data['dense_vecs'],
-            "sparse": data['lexical_weights'],
+            "sparse": sparse,
             "late": data['colbert_vecs']
         }
 
