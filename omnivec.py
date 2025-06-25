@@ -34,21 +34,19 @@ class Omnivec:
             cache_dir=os.getenv("RERANKER_CACHE_DIR", "./cache"),
             devices=os.getenv("RERANKER_DEVICES", None),
             batch_size=int(os.getenv("RERANKER_BATCH_SIZE", 128)),
-            query_max_length=int(os.getenv("RERANKER_QUERY_MAX_LENGTH", 1024)) if os.getenv(
-                "RERANKER_QUERY_MAX_LENGTH") else None,
+            query_max_length=int(os.getenv("RERANKER_QUERY_MAX_LENGTH", 1024)),
             max_length=int(os.getenv("RERANKER_MAX_LENGTH", 1024)),
             normalize=os.getenv("RERANKER_NORMALIZE", 'False') in ('true', '1', 't')
         )
 
-    def encode_passages(self, corpus: list[str] | str, batch_size: int = 128, max_length: int = 1024, dense: bool = True,
-                        sparse: bool = True, late_interaction: bool = False) -> dict:
+    def encode_passages(self, corpus: list[str] | str, batch_size: int = 128, max_length: int = 1024) -> dict:
         data = self.__embedding_model.encode_corpus(
             corpus=corpus,
             batch_size=batch_size,
             max_length=max_length,
-            return_dense=dense,
-            return_sparse=sparse,
-            return_colbert_vecs=late_interaction
+            return_dense=True,
+            return_sparse=True,
+            return_colbert_vecs=True
         )
         sparse=[]
 
@@ -69,15 +67,14 @@ class Omnivec:
             "late": data['colbert_vecs']
         }
 
-    def encode_queries(self, queries: list[str] | str, batch_size: int = 128, max_length: int = 1024, dense: bool = True,
-                       sparse: bool = True, late_interaction: bool = False) -> dict:
+    def encode_queries(self, queries: list[str] | str, batch_size: int = 128, max_length: int = 1024) -> dict:
         data = self.__embedding_model.encode_queries(
             queries=queries,
             batch_size=batch_size,
             max_length=max_length,
-            return_dense=dense,
-            return_sparse=sparse,
-            return_colbert_vecs=late_interaction
+            return_dense=True,
+            return_sparse=True,
+            return_colbert_vecs=True
         )
         sparse = []
 

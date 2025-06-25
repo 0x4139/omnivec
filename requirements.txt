@@ -10,7 +10,9 @@ cbor==1.0.0
 certifi==2025.1.31
 charset-normalizer==3.4.1
 click==8.1.8
+Cython==3.1.2
 datasets==3.3.2
+deptry==0.23.0
 dill==0.3.8
 dnspython==2.7.0
 email_validator==2.2.0
@@ -73,11 +75,13 @@ pytz==2025.1
 PyYAML==6.0.2
 regex==2024.11.6
 requests==2.32.3
+requirements-parser==0.13.0
 rich==13.9.4
 rich-toolkit==0.13.2
 safetensors==0.5.3
 scikit-learn==1.6.1
 scipy==1.15.2
+semantic-text-splitter==0.27.0
 sentence-transformers==3.4.1
 sentencepiece==0.2.0
 setuptools==75.8.2
